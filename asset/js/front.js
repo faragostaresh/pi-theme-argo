@@ -18,6 +18,7 @@
 })(jQuery)
 
 
+
 /* =============================================================
  * bootstrap-myCollapse.js v2.3.1
  * http://twitter.github.com/bootstrap/javascript.html#myCollapse

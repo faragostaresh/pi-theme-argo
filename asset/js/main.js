@@ -1,168 +1,168 @@
 /**
- * Theme : Argo
+ * Theme : Argo 
  * Author: WPStrong
  * Version: 1.0
  */
-var trigged = [], scrollTimeout;
-jQuery(function ($) {
+var trigged=[],scrollTimeout;
+jQuery(function($){
+	
+	//Trigger rotate
+	// --------------------
+	$('#header .thumb').on('rotate',function(){
+		var $this = $(this);
+		$this.addClass('active');
+		var tout =getRandomInt(3,10)*1000;
+		setTimeout(function(){
+			$this.removeClass('active');
+		},tout)
+	});
+	var rotateCycle = setInterval(function(){
+		var thumbs = $('#header .thumb:not(.active)');
+		$(thumbs[getRandomInt(0,thumbs.length)]).trigger('rotate');
+	},3000);
 
-    //Trigger rotate
-    // --------------------
-    $('#header .thumb').on('rotate', function () {
-        var $this = $(this);
-        $this.addClass('active');
-        var tout = getRandomInt(3, 10) * 1000;
-        setTimeout(function () {
-            $this.removeClass('active');
-        }, tout)
-    });
-    var rotateCycle = setInterval(function () {
-        var thumbs = $('#header .thumb:not(.active)');
-        $(thumbs[getRandomInt(0, thumbs.length)]).trigger('rotate');
-    }, 3000);
+	function triggerEvent(elem,fn,offset){
+		var top = elem.offset().top;
+		if((top-offset)<$(window).scrollTop()){
+			fn(elem);
+		}
+	}
 
-    function triggerEvent(elem, fn, offset) {
-        var top = elem.offset().top;
-        if ((top - offset) < $(window).scrollTop()) {
-            fn(elem);
-        }
-    }
+	//Window on scroll event
+	//-------------------------------
+	$(window).scroll(function(){
+		var wtop = $(window).scrollTop();
+		var header_heigh = $('#header').height();
+		if(wtop<header_heigh){ 
+			$('#myNavbar').removeClass('myNavbar-fixed-top');
+			$('#header').css('margin-bottom',0);
+		}
 
-    //Window on scroll event
-    //-------------------------------
-    $(window).scroll(function () {
-        var wtop = $(window).scrollTop();
-        var header_heigh = $('#header').height();
-        if (wtop < header_heigh) {
-            $('#myNavbar').removeClass('myNavbar-fixed-top');
-            $('#header').css('margin-bottom', 0);
-        }
+		clearTimeout(scrollTimeout);
+			scrollTimeout=setTimeout(function(){
 
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(function () {
+                triggerEvent($('#portfolio'),function(){
+                    if(trigged['portfolio']) return;
+                    $('.isotope .item').addClass('active');
+                    trigged['portfolio'] = true;
+                },100);
 
-            triggerEvent($('#portfolio'), function () {
-                if (trigged['portfolio']) return;
-                $('.isotope .item').addClass('active');
-                trigged['portfolio'] = true;
-            }, 100);
+                triggerEvent($('#blog'),function(){
+                    if(trigged['blog']) return;
+                    $('.isotope .item').addClass('active');
+                    trigged['blog'] = true;
+                },100);
 
-            triggerEvent($('#blog'), function () {
-                if (trigged['blog']) return;
-                $('.isotope .item').addClass('active');
-                trigged['blog'] = true;
-            }, 100);
+				triggerEvent($('#about-us'),function(){
+					if(trigged['about-us']) return;
+					$('.progress .bar').each(function(){
+						var $this=$(this);	
+						$this.css('width',$this.data('width')+'%');			
+					});
+					trigged['about-us'] = true;
+				},200);
 
-            triggerEvent($('#about-us'), function () {
-                if (trigged['about-us']) return;
-                $('.progress .bar').each(function () {
-                    var $this = $(this);
-                    $this.css('width', $this.data('width') + '%');
-                });
-                trigged['about-us'] = true;
-            }, 200);
+			},50);
+				
+			triggerEvent($('#myNavbar'),function(elem){
+				if(elem.hasClass('myNavbar-fixed-top')) return;
+				 elem.addClass('myNavbar-fixed-top');
+				 $('#header').css('margin-bottom',$('#myNavbar').height());
+				},0)
+	});
 
-        }, 50);
+	//Window on resize event
+	//------------------------------------------------
+	$(window).resize(function(){
+	
+			var metro = $('#header .container.visible-phone:visible');
+			var bricks = metro.find('.brick1');
+			var size = metro.width()/2
+			bricks.css({width:size,height:size});
+		
 
-        triggerEvent($('#myNavbar'), function (elem) {
-            if (elem.hasClass('myNavbar-fixed-top')) return;
-            elem.addClass('myNavbar-fixed-top');
-            $('#header').css('margin-bottom', $('#myNavbar').height());
-        }, 0)
-    });
+	});
 
-    //Window on resize event
-    //------------------------------------------------
-    $(window).resize(function () {
+	$(window).trigger('resize');
 
-        var metro = $('#header .container.visible-phone:visible');
-        var bricks = metro.find('.brick1');
-        var size = metro.width() / 2
-        bricks.css({width: size, height: size});
+	//Vertical scroll for blog section
+	//------------------------------------------
+	$(".blog_container").mCustomScrollbar({
+		horizontalScroll:true,
+		advanced:{
+			autoExpandHorizontalScroll:true
+		}
+	});
 
+	
+	// Nav button click 
+	// -------------------------------------------------------
+	
+	$('#myNavbar .myNav a , #header a.myNav-item , #myNavbar .brand,#btn_up').click(function(e){
+		e.preventDefault();
+		var des = $(this).attr('href');
+		if($('.myNavbar .myNav-myCollapse').hasClass('in')){
+			$('.myNavbar .btn-myNavbar').trigger('click');
+		}
+		goToSectionID(des);
+	})
 
-    });
+	/**
+	 * Isotope filter
+	 */
+		// cache container
+		var $container = $('.isotope');
+		// initialize isotope
+		$container.isotope({
+		  // options...
+		});
 
-    $(window).trigger('resize');
+		// filter items when filter link is clicked
+		$('.filter a').click(function(){
+		  var selector = $(this).attr('data-filter');
+		  $container.isotope({ filter: selector });
+		  $('.filter a.active').removeClass('active');
+		  $(this).addClass('active');
+		  return false;
+		});
 
-    //Vertical scroll for blog section
-    //------------------------------------------
-    $(".blog_container").mCustomScrollbar({
-        horizontalScroll: true,
-        advanced: {
-            autoExpandHorizontalScroll: true
-        }
-    });
+	/**
+	 * Portfolio hover effect 
+	 */
+		$(' .isotope > li ').each( function() { 
+			$(this).hoverdir({
+				hoverDelay : 0
+			}); 
+		} );
 
+	/**
+	 * Init carousel
+	 */
+	$('#msgs').carousel({interval:5000});
 
-    // Nav button click 
-    // -------------------------------------------------------
+	
+	/**
+	 * Detect IE 10
+	 */
+	
+	if (/*@cc_on!@*/false) {  
+   		$("html").addClass("ie10");  
+   		
+	}	 
+	// if ($.browser.msie && $.browser.version == 10) {
+	// 	  $("html").addClass("ie10");
+	// 	}
 
-    $('#myNavbar .myNav a , #header a.myNav-item , #myNavbar .brand,#btn_up').click(function (e) {
-        e.preventDefault();
-        var des = $(this).attr('href');
-        if ($('.myNavbar .myNav-myCollapse').hasClass('in')) {
-            $('.myNavbar .btn-myNavbar').trigger('click');
-        }
-        goToSectionID(des);
-    })
-
-    /**
-     * Isotope filter
-     */
-        // cache container
-    var $container = $('.isotope');
-    // initialize isotope
-    $container.isotope({
-        // options...
-    });
-
-    // filter items when filter link is clicked
-    $('.filter a').click(function () {
-        var selector = $(this).attr('data-filter');
-        $container.isotope({filter: selector});
-        $('.filter a.active').removeClass('active');
-        $(this).addClass('active');
-        return false;
-    });
-
-    /**
-     * Portfolio hover effect
-     */
-    $(' .isotope > li ').each(function () {
-        $(this).hoverdir({
-            hoverDelay: 0
-        });
-    });
-
-    /**
-     * Init carousel
-     */
-    $('#msgs').carousel({interval: 5000});
-
-
-    /**
-     * Detect IE 10
-     */
-
-    if (/*@cc_on!@*/false) {
-        $("html").addClass("ie10");
-
-    }
-    // if ($.browser.msie && $.browser.version == 10) {
-    // 	  $("html").addClass("ie10");
-    // 	}
-
-    $('.header-link-1').click(function () {
+	$('.header-link-1').click(function () {
         window.location.href = "https://www.pejmannorouzi.com/news/میدان-اکتشاف-الدوله";
     });
 })
 
-$(window).load(function ($) {
+$(window).load(function($){
 
-    // Trigger window scroll event when page loaded
-    // -------------------------------------------------------
-    jQuery(window).trigger('scroll');
+	// Trigger window scroll event when page loaded
+	// -------------------------------------------------------
+	jQuery(window).trigger('scroll');
 
 })
 
@@ -172,7 +172,7 @@ $(window).load(function ($) {
  * Returns a random integer between min and max
  * Using Math.round() will give you a non-uniform distribution!
  */
-function getRandomInt(min, max) {
+function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -182,14 +182,14 @@ function getRandomInt(min, max) {
  * @return void
  */
 onanimate = false;
-function goToSectionID(des) {
-    onanimate = true;
-    var pos = (jQuery(des).length > 0 ) ? jQuery(des).offset().top : 0;
-    jQuery('html,body').animate({scrollTop: pos}, 1000, function () {
-        if (history.pushState) {
-            history.pushState(null, null, des);
-        } else        window.location.hash = des;
-        jQuery(window).scrollTop(pos);
-        onanimate = false
-    });
+function goToSectionID(des){
+	onanimate = true;
+	var pos = (jQuery(des).length>0 )?jQuery(des).offset().top:0;
+	jQuery('html,body').animate({scrollTop:pos},1000,function(){
+		if(history.pushState){
+			history.pushState(null,null,des);
+		}else		window.location.hash = des;
+		jQuery(window).scrollTop(pos);
+		onanimate=false
+	});
 }

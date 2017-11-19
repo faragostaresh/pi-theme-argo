@@ -5621,8 +5621,7 @@ a:active {
 
 #header .logo_myContainer .logo {
     text-align: center;
-    font-size: 40px;
-    margin-top: 77.5px
+    margin-top: 5px;
 }
 
 #header .logo_myContainer .logo a:hover, #header .logo_myContainer .logo a:focus, #header .logo_myContainer .logo a:active {
@@ -9033,7 +9032,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     }
 
     #header .logo_myContainer .logo {
-        margin-top: 60px
+        margin-top: 5px;
     }
 
     #header h1 {
@@ -9203,8 +9202,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     }
 
     #header .logo_myContainer .logo {
-        margin-top: 40px;
-        font-size: 50px
+        margin-top: 5px;
     }
 
     #header .slogan {
