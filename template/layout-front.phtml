@@ -1,0 +1,809 @@
+<?php
+// Set doctype explicitly if it is not `HTML4_LOOSE`, i.e. 'HTML 4.01 Transitional'
+$this->doctype('HTML5');
+
+// Load translation data
+$this->i18nTheme();
+
+//HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+$this->js([
+    pi::url('static/js/html5shiv.js')   => [
+        'conditional' => 'lt IE 9',
+    ],
+    pi::url('static/js/respond.min.js') => [
+        'conditional' => 'lt IE 9',
+    ],
+]);
+
+// Load jQuery
+$this->jquery();
+
+// Load Bootstrap css/js and font-awesome
+$this->bootstrap([
+    'js/bootstrap.min.js',
+    'font-awesome/css/font-awesome.min.css',
+]);
+
+// Load front.css
+$this->css($this->assetTheme('css/front.css'));
+
+// Load localization css
+$this->css($this->assetLocale('locale.css'));
+
+// Load front.js on footer
+$this->footScript()->appendFile($this->assetTheme('js/front.js'));
+$this->footScript()->appendFile($this->assetTheme('js/jquery.mCustomScrollbar.concat.min.js'));
+$this->footScript()->appendFile($this->assetTheme('js/jquery.hoverdir.js'));
+$this->footScript()->appendFile($this->assetTheme('js/jquery.isotope.min.js'));
+$this->footScript()->appendFile($this->assetTheme('js/main.js'));
+
+// Load google font
+$this->headLink()->appendStylesheet('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,300italic');
+
+// Apple icons
+// Apple icon for iphone
+$this->headLink([
+    'rel'  => 'apple-touch-icon',
+    'href' => $this->assetTheme('image/touch-icon-iphone.png'),
+]);
+// Apple icon for ipad
+$this->headLink([
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '72x72',
+    'href'  => $this->assetTheme('image/touch-icon-ipad.png'),
+]);
+// Apple icon for iphone retina
+$this->headLink([
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href'  => $this->assetTheme('image/touch-icon-iphone-retina.png'),
+]);
+// Apple icon for ipad retina
+$this->headLink([
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href'  => $this->assetTheme('image/touch-icon-ipad-retina.png'),
+]);
+
+// Meta Viewport Tag
+$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
+
+// Explicitly load favicon
+$this->headLink([
+    'rel'  => 'shortcut icon',
+    'type' => 'image/x-icon',
+    'href' => $this->favicon(),
+]);
+$this->headLink([
+    'rel'  => 'shortcut icon',
+    'type' => 'image/png',
+    'href' => $this->favicon('favicon.png'),
+]);
+
+// Load google analytics code
+$this->ga();
+
+// Get module name
+$module = Pi::service('module')->current();
+
+// Get navigation
+$navigation = $this->nav('front');
+
+// Get block
+$blocks        = $this->blocks();
+$blockTemplate = $this->template('block');
+
+// Get breadcrumbs
+/* $breadcrumbs = $this->breadcrumb(
+    array('prefix' => array(
+        array(
+            'label' => __('Home'),
+            'href' => Pi::url($this->url('home'))
+        )
+    ))
+); */
+?>
+<!DOCTYPE HTML>
+<html lang="<?php echo $locale; ?>">
+<head>
+    <meta charset="<?php echo $charset; ?>">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+</head>
+<body id="pi-<?php echo $module; ?>" class="pi-locale-<?php echo $locale; ?> pi-front" data-spy="scroll"
+      data-target=".myNavbar">
+<?php if ($module == 'system') { ?>
+    <header id="header">
+        <div class="header-holder">
+            <div class="myContainer hidden-phone">
+                <div class="brow">
+                    <div class="brick1 logo_myContainer">
+                        <a href="https://www.pejmannorouzi.com" class="myNav-item clearfix">
+                            <div class="myNav-hover"></div>
+                            <h1 class="logo">پژمان</h1>
+                        </a>
+                    </div>
+                    <div class="brick1 transparent"></div>
+                </div>
+                <div class="brow">
+                    <div class="slogan brick3 boffset1 transparent text-right">
+                        <div class="inner">
+                            <h1>وبسایت شخصی/حرفه ای محمد رضا(پژمان) نوروزی</h1>
+                            <p>اینجا با فعالیتهای حرفه ای و نوشته های شخصی من روبرو خواهید شد</p>
+                        </div>
+                    </div>
+                    <div class="brick1 odd">
+                        <a href="#about-us" class="myNav-item">
+                            <div class="myNav-hover"></div>
+                            <i class="fa fa-comment-o"></i>
+                            <span>درباره من</span>
+                        </a>
+                    </div>
+                    <div class="brick1 thumb">
+                        <div class="myNav-item flipX">
+                            <img class="img1 header-link-1"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-a1.jpg" alt="">
+                            <img class="img2 header-link-1"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-a2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="brow">
+                    <div class="brick1 thumb">
+                        <div class="myNav-item flipX">
+                            <img class="img1 header-link-2"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-b1.jpg" alt="">
+                            <img class="img2 header-link-2"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-b2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="brick1 odd">
+                        <a href="#portfolio" class="myNav-item">
+                            <div class="myNav-hover"></div>
+                            <i class="fa fa-picture-o"></i>
+                            <span>نمونه کارها</span>
+                        </a>
+                    </div>
+                    <div class="brick1">
+                        <a href="#services" class="myNav-item">
+                            <div class="myNav-hover"></div>
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>خدمات</span>
+                        </a>
+                    </div>
+                    <div class="brick1 thumb">
+                        <div class="myNav-item flipY">
+                            <img class="img1 header-link-3"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-c1.jpg" alt="">
+                            <img class="img2 header-link-3"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-c2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="brick1 thumb">
+                        <div class="myNav-item flipX">
+                            <img class="img1 header-link-4"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-d1.jpg" alt="">
+                            <img class="img2 header-link-4"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-d2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="brick1">
+                        <a href="#blog" class="myNav-item">
+                            <div class="myNav-hover"></div>
+                            <i class="fa fa-newspaper-o"></i>
+                            <span>وبلاگ</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="brow">
+                    <div class="brick1 boffset2 thumb">
+                        <div class="myNav-item flipY">
+                            <img class="img1 header-link-3"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-c1.jpg" alt="">
+                            <img class="img2 header-link-3"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-c2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="brick1 thumb">
+                        <div class="myNav-item flipY">
+                            <img class="img1 header-link-1"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-a1.jpg" alt="">
+                            <img class="img2 header-link-1"
+                                 src="https://www.pejmannorouzi.com/upload/argo/header-a2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="brick1 odd">
+                        <a href="#contact" class="myNav-item">
+                            <div class="myNav-hover"></div>
+                            <i class="fa fa-paper-plane-o"></i>
+                            <span>تماس با من</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="myContainer visible-phone">
+                <div class="brick1 logo_myContainer">
+                    <a href="https://www.pejmannorouzi.com" class="myNav-item clearfix">
+                        <div class="myNav-hover"></div>
+                        <h1 class="logo">پژمان</h1>
+                    </a>
+                </div>
+                <div class="brick1 odd">
+                    <a href="#about-us" class="myNav-item">
+                        <div class="myNav-hover"></div>
+                        <i class="fa fa-comment-o"></i>
+                        <span>درباره من</span>
+                    </a>
+                </div>
+                <div class="brick1 odd">
+                    <a href="#portfolio" class="myNav-item">
+                        <div class="myNav-hover"></div>
+                        <i class="fa fa-picture-o"></i>
+                        <span>نمونه کارها</span>
+                    </a>
+                </div>
+                <div class="brick1">
+                    <a href="#services" class="myNav-item">
+                        <div class="myNav-hover"></div>
+                        <i class="fa fa-lightbulb-o"></i>
+                        <span>خدمات</span>
+                    </a>
+                </div>
+                <div class="brick1">
+                    <a href="#blog" class="myNav-item">
+                        <div class="myNav-hover"></div>
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>وبلاگ</span>
+                    </a>
+                </div>
+                <div class="brick1 odd">
+                    <a href="#contact" class="myNav-item">
+                        <div class="myNav-hover"></div>
+                        <i class="fa fa-paper-plane-o"></i>
+                        <span>تماس با من</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header> <!-- End header -->
+    <div id="myNavbar" class="myNavbar">
+        <div class="myNavbar-inner">
+            <div class="myContainer">
+                <button data-target=".myNav-myCollapse" data-toggle="myCollapse" class="btn btn-myNavbar" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="brand">پژمان نوروزی</a>
+                <div class="myNav-myCollapse myCollapse">
+                    <ul class="myNav pull-right">
+                        <li class="">
+                            <a href="#about-us"><i class="fa fa-comment-o"></i>درباره من</a>
+                        </li>
+                        <li class="">
+                            <a href="#blog"><i class="fa fa-newspaper-o"></i>وبلاگ</a>
+                        </li>
+                        <li class="">
+                            <a href="#portfolio"><i class="fa fa-picture-o"></i>نمونه کارها</a>
+                        </li>
+                        <li class="">
+                            <a href="#services"><i class="fa fa-lightbulb-o"></i>خدمات</a>
+                        </li>
+                        <li class="">
+                            <a href="#customer"><i class="fa fa-magic"></i>مشتریان</a>
+                        </li>
+                        <li class="">
+                            <a href="#contact"><i class="fa fa-paper-plane-o"></i>تماس با من</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end myNavbar -->
+    <div id="services" class="section">
+        <div class="myContainer">
+            <div class="hero">
+                <h1 class="hero-color">خدمات</h1>
+                <p class="hero-color">مهمترین کاری که میتوانم برای شما انجام دهم، طراحی مفهومی است . البته در برخی موارد
+                    ایده های طراحی شده را به اجرا در میاورم . در بسیاری از موارد به جای ایده پردازی و یا اجرای ایده ها ،
+                    مشاور شما میشوم تا بتوانید بهترین تصمیم ها را اتخاذ کنید. اگر مدیر یک موزه یا مرکز علم هستید ، یا یک
+                    کلکسیون شخصی دارید و یا به دنیال برگزاری یک رویداد (مثلا افتتاحیه ، اختتامیه ، جشن فارغ التحصیلی یا
+                    حتی برنامه های علمی فرهنگی) هستید ، کمکهای من و دوستانم راهگشای خوبی برای شما خواهند بود.</p>
+            </div>
+            <div class="brow sev_list">
+                <div class="brick2">
+                    <i class="fa fa-lightbulb-o"></i>
+                    <h2>طراحی مفهومی</h2>
+                    <p>ساختار بنیادی یک ایده (هرچه که باشد) طراحی مفهومی است. در فرایند «طراحی مفهومی» ایده‌ی مرکزی شکل
+                        می‌گیرد، همه‌ی فرایندها ، ساختارها ، استراتژی ها و تجارب تعیین می‌شوند. طراحی مفهومی معلوم
+                        می‌کند برای احداث یک موزه ، مرکز علم ، کلکسیون و یا یک رویداد چه نیازهایی وجود دارد، چه راه
+                        حل‌هایی را می‌توان تصور کرد و در نهایت چگونه کار را به انجام رساند.</p>
+                </div>
+                <div class="brick2">
+                    <i class="fa fa-cogs"></i>
+                    <h2>اجرای پروژه</h2>
+                    <p>شما یک طرح مفهومی دارید و به دنبال تیمی هستید که ایده هایتان را به خوبی اجرایی کند؟ اگر
+                        پروژه‌هایتان در حوزه‌هایی است که من و دوستانم تخصص و تجربه داریم ، حتما یاری رسانتان خواهیم بود.
+                        تولید محتوای تصویری و مکتوب ، اجرای موزه و مرکز علم و یا گالری‌های موضوعی،طراحی و اجرای لباس،
+                        طراحی و اجرای کامل رویدادهای خاص و ویژه از مهمترین تجارب و تخصصهای من و دوستانم است.</p>
+                </div>
+                <div class="brick2">
+                    <i class="fa fa-pencil"></i>
+                    <h2>مشاوره</h2>
+                    <p>شما با یک تیم اجرایی یا طراحی قرارداد دارید؟ خب پس حتما به مشاورانی کاربلد و امین نیاز دارید تا
+                        هم پیشرفت کار را پایش کنند و گزارش‌هایی دقیق به شما دهند و هم خواسته های شما را با پیمانکارانتان
+                        در میان بگذارند. من و دوستانم رابطی دقیق و امین بین شما و پیمانکاران خواهیم بود. پلی که برای
+                        تسهیل رفت و آمد ایده‌ها و نهایی شدنِ پروژه‌هایتان به آن نیاز دارید.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="portfolio" class="section">
+        <div class="myContainer">
+            <div class="hero">
+                <h1 class="hero-color">نمونه کارها</h1>
+                <p class="hero-color">اینجا به بخشی از فعالیتهای حرفه ای من که با کمک دوستانم پیش برده ایم سرک
+                    بکشید.</p>
+            </div>
+            <ul class="filter clearfix">
+                <li><a href="#" class="active" data-filter="*">همه</a></li>
+                <li><a href="#" data-filter=".topic-2">آموزش علوم</a></li>
+                <li><a href="#" data-filter=".topic-3">تولید محتوا</a></li>
+                <li><a href="#" data-filter=".topic-4">ساخت و تجهیز</a></li>
+                <li><a href="#" data-filter=".topic-5">طراحی رویداد</a></li>
+                <li><a href="#" data-filter=".topic-6">طراحی مفهومی</a></li>
+                <li><a href="#" data-filter=".topic-7">گرافیک ایده ها</a></li>
+            </ul>
+            <?php echo $this->widget('news-item'); ?>
+        </div>
+    </div>
+    <div id="purchase" class="divider section">
+        <div class="bg-holder">
+            <div class="myContainer">
+                <div class="hero">
+                    <h1>وبسایت شخصی/حرفه ای محمد رضا(پژمان) نوروزی</h1>
+                    <div class="clearfix">
+                        <a class="btn btn-large" href="https://www.pejmannorouzi.com/news/portfolio">
+                            <div class="myNav-hover"></div>
+                            نمونه کارها</a>
+                        <a class="btn btn-large" href="https://www.pejmannorouzi.com/news/blog">
+                            <div class="myNav-hover"></div>
+                            وبلاگ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="about-us" class="section text-justify">
+        <div class="myContainer">
+            <div class="hero">
+                <h1 class="hero-color">درباره من</h1>
+                <p class="hero-color">یک فریلنسر مطلق با «همراهی» گروهی بزرگ از دوستان .</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 align="right">قصه‌ی فعالیت حرفه‌ای من</h3>
+                    <p>پس از سال‌ها فعالیت در حوزه‌ی «علم» به شکل عام و نجوم و میکروبیولوژی و آموزش (به شکل خاص) در قالب
+                        مدرس در دانشگاه‌ها و مراکز آموزش عالی و نیز تدریس علم در مدارس تهران، بالاخره آرام آرام به سوی
+                        علاقه‌ی اصلیم، یعنی طراحی فضاهای آموزشی و علمی پیش رفتم. رصدخانه‌ها وآسمان‌نماهای کوچک و متوسطی
+                        را در تهران و زنجان و زابل و … طراحی و اجرا کردم تا اینکه بر اساس علاقه و پس از تحصیل ناپیوسته و
+                        راه دور در حوزه‌ی طراحی فضاهای علمی به طراحی مفهومی موزه و «مرکز علم» پرداختم. اکنون بیش از ۶
+                        سال است که کاملا به شکل «فریلنس» در این حوزه فعالم. موزه‌ها و مراکز علم و کلکسیونهای کوچک و
+                        بزرگی را طراحی کرده‌ام و در برخی موارد آنها را اجرا هم کرده‌ام. مشاوره‌هایی تخصصی به سازمانهای
+                        ملی و افراد و موسسات خصوصی داده ام. و با سابقه‌ی علمی و نیز رسانه‌ای و ترویج علمی قبلی‌ای که
+                        دارم در حوزه‌ی طراحی مفهومی ، طراحی و تولید محتوا نیز فعالیت‌های زیادی می‌کنم که برخی از
+                        مهمترین‌های آنها را در بخش «نمونه کارها» می‌بینید. من در قالب شرکت کار نمیکنم ولی از حمایت ،
+                        همفکری و همکاری جمع بزرگی از دوستان حرفه‌ای و متخصصم استفاده می‌کنم که باعث می‌شود جنبه‌های
+                        حرفه‌ای متنوعی داشته باشم که با دقت آنها را پیش می‌برم.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3 align="right">مهارت های من</h3>
+                    <div class="progress">
+                        <div class="bar" data-width="90"><span>آموزش</span></div>
+                    </div>
+                    <div class="progress">
+                        <div class="bar" data-width="90"><span>تولید محتوا</span></div>
+                    </div>
+                    <div class="progress">
+                        <div class="bar" data-width="70"><span>مدیریت پروژه</span></div>
+                    </div>
+                    <div class="progress">
+                        <div class="bar" data-width="85"><span>طراحي تجربه</span></div>
+                    </div>
+                    <div class="progress">
+                        <div class="bar" data-width="60"><span>ساخت و تولید</span></div>
+                    </div>
+                </div>
+            </div>
+            <h3 align="right">«من»های مختلف پژمان نوروزی</h3>
+
+            <div class="our-team row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p4.jpg" alt="منِ رسانه اي">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ رسانه اي</h4>
+                            <p class="text-justify">نخستین تصویر من در تلویزیون در سال ۱۳۷۱ و در یک برنامه تلویزیونی
+                                کوتاه پخش شد و از آن به بعد به تناوب در برنامه های مختلف رادیو و تلویزیون به عنوان
+                                کارشناس ، مجری ، طراح و مشاور به فعالیت پرداخته‌ام. همه‌ی برنامه‌هایی که کار کرده‌ام در
+                                حوزه ترویج علم و محیط زیست و گردشگری بوده است. مهمترین برنامه‌هایی که در آن‌ها به شکل
+                                پیوسته شرکت داشته‌ام عبارتند از :آسمان شب ، کندو ،تیک تاک ،چرخ ، سلام تهران ،روز از نوو
+                                عمق آب بوده است. تعداد زیادی برنامه تلویزیونی و رادیویی و ویژه برنامه های علمی را هم به
+                                شکل گاه به گاه اجرا یا کارشناسی کرده ام. در این حوزه بیشترین همکاری را با «سیاوش صفاریان
+                                پور» داشته ام و همواره از مشورت‌های دقیق و حرفه‌ای او بهره برده‌ام.</p>
+                        </div>
+                        <!-- <div class="social">
+                             <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="twitter"><i class="fa fa-twitter"></i></a><a href="#" class="gplus"><i class="fa fa-google-plus"></i></a>
+                         </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p2.jpg" alt="منِ ژورنالیست">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ ژورنالیست</h4>
+                            <p class="text-justify">اطلاق عنوان ژورنالیست به خودم را کار سختی میدانم، اما به هر حال در
+                                این حوزه فعالیت میکنم. اولین بار در سال ۱۳۷۳ در روزنامه همشهری مطلبی درباره
+                                دنباله‌دار«شومیکر-لوی۹» نوشتم(به همراه علیرضا عقابی) و از آن پس در مجلات دانشمند و نجوم
+                                به شکل پیوسته مطلب نوشتم، از اولین شماره‌ی دوره‌ی جدید مجله دانستنیها عضو تحریریه‌ی آن
+                                بودم (تا ۶-۷ شماره) و پس از آن همکاری‌ام را با این مجله هم در قامت نویسنده ادامه
+                                داده‌ام. ستونهای ثابتی برای روزنامه جام جم داشته ام و اکنون علاوه بر اینها به همراه
+                                «پوریا ناظمی» مجموعه پادکست‌های ترویج علمیِ «پروژه راز» را تولید می‌کنیم.</p>
+                        </div>
+                        <!-- <div class="social">
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="gplus"><i class="fa fa-google-plus"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="our-team row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p1.jpg" alt="منِ معلم">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ معلم</h4>
+                            <p class="text-justify"> این نقش را بیشتر و بهتر از همه ی نقش‌های خودم دوست دارم و بلد هستم.
+                                در حوزه‌ی علوم معلمی کرده‌ام. از دبستان تا دوره‌ی دکتری. تجربه‌ی طولانی تدریس،شیوه‌های
+                                کاملا شخصی، برخورد حرفه‌ای و تخصصی مبتنی بر الگوهای مدرن و نگاه به شیوه‌های آموزش سنتی
+                                در ایران باعث شده همواره روش‌های شخصی و کارآمدی را برای تدریس بیابم. اکنون عضو پیوسته‌ی
+                                انجمن بین‌المللی معلمان علوم هستم و تلاش میکنم همواره راه‌های جدیدی را برای تدریس به
+                                شیوه‌های غیر مرسوم و آموزشهای پیوسته و مادام‌العمر بیابم و بسازم.</p>
+                        </div>
+                        <!-- <div class="social">
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p3.jpg" alt="منِ طراح">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ طراح</h4>
+                            <p class="text-justify">همیشه علاقه داشته‌ام معماری کنم. اما هیچوقت سراغ آموختن آکادمیکش
+                                نرفتم...اما به دلیل علاقه و تحصیلات تکمیلی‌ام آرام آرام به حوزه‌ی طراحی فضاهای علمی و
+                                آموزشی نزدیک شدم. اکنون به عنوان طراح موزه ، مرکز علم ، ایونت و در یک کلام، « طراح
+                                تجربه» مشغول به کار حرفه‌ای هستم. طراحِ درونِ من ایده‌پردازی می‌کند و بعد با کمک جمع
+                                بزرگی از دوستان برای این ایده‌ها راه حل پیدا می‌کند و آنها را به مرحله‌ی اجرا
+                                می‌رساند.در این مسیر از کمکها و مشاوره های مهندس عطایی،فخر و راسته بیشترین کمک را
+                                گرفتم.</p>
+                        </div>
+                        <!-- <div class="social">
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="gplus"><i class="fa fa-google-plus"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="our-team row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p1.jpg" alt="منِ مسافر">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ مسافر</h4>
+                            <p class="text-justify">سفر رفتن همواره بخشی از زندگی من بوده. سفرهایی به سبک و سیاق خودم.
+                                از طبیعت‌گردی تا گشت و گذار در شهر.به همین مناسبت هرآنچه با سفر پیوند داشته را دوست
+                                داشته‌ام .در بسیاری از این سفر‌ها دوستان و آشنایانی هم همراهم بوده‌اند.ساختن
+                                برنامه،رویداد‌های مرتبط با سفر،طراحی مسیر سفر،برگزاری جلسات سفرنامه‌گویی(سُنگی) و چند
+                                نمایشگاه عکس گروهی همگی حاصل فعالیتِ همین منِ مسافرِ درونی است.</p>
+                        </div>
+                        <!-- <div class="social">
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="team">
+                        <div class="ava">
+                            <img src="https://www.pejmannorouzi.com/upload/argo/p4.jpg" alt="منِ‌ مروج">
+                        </div>
+                        <div class="info">
+                            <h4 class="name">منِ‌ مروج</h4>
+                            <p class="text-justify">کار ترویج علم یک فعالیت خودخواسته و بسیار جدی است که بیش از ۲۰ سال
+                                به همراه دوستانم در رصدخانه آموزشی زعفرانیه و بعدها در موقعیت‌های مختلف به اجرا
+                                درآورده‌ام. خلق موقعیت‌های تازه و شیوه‌های جدید و جذاب برای تاثیر گذاری بیشترهمیشه برایم
+                                مهم بوده است . تاسیس شاخه آماتوری انجمن نجوم ایران ، سخنرانی‌های علمی عمومی در سراسر
+                                ایران ، ساخت پادکست‌های علمی،اجرای شو‌های علمی و راه‌اندازی جایزه سالانه چراغ بخشی از
+                                فعالیت این منِ شیطان بوده است. بیشتر این فعالیتها در تمام این سالها به همراه سیاوش
+                                صفاریان پور ، پوریا ناظمی، شاهین جعفرزاده و بابک امین تفرشی به اجرا در‌آمده است.</p>
+                        </div>
+                        <!-- <div class="social">
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="gplus"><i class="fa fa-google-plus"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- end About us  -->
+
+    <div id="blog" class="section">
+        <div class="myContainer">
+            <div class="hero">
+                <h1 class="hero-color">وبلاگ</h1>
+                <p class="hero-color">اینجا مجموعه‌ای از نوشته‌های جدید و آرشیوی از نوشته‌های قبلی‌ام را که در نشریات
+                    مختلف منتشر شده‌اند خواهید یافت.</p>
+            </div>
+            <ul class="filter clearfix">
+                <li><a href="#" class="active" data-filter="*">همه</a></li>
+                <li><a href="#" data-filter=".topic-17">طراحی موزه</a></li>
+                <li><a href="#" data-filter=".topic-10">طراحی خوراک</a></li>
+                <li><a href="#" data-filter=".topic-14">علوم و فنون</a></li>
+                <li><a href="#" data-filter=".topic-13">ادبیات</a></li>
+                <li><a href="#" data-filter=".topic-9">سفرنامه</a></li>
+                <li><a href="#" data-filter=".topic-16">گزارش</a></li>
+                <li><a href="#" data-filter=".topic-15">متفرقه</a></li>
+            </ul>
+            <?php echo $this->widget('news-blog'); ?>
+        </div>
+    </div> <!-- end Blog -->
+
+    <div id="customer" class="divider section">
+        <div class="bg-holder">
+            <div class="myContainer">
+                <?php echo $this->widget('widget-customers'); ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="section">
+        <div class="myContainer">
+            <div class="hero">
+                <h1 class="hero-color">تماس با من</h1>
+                <p class="hero-color">به سختی تلفن جواب می‌دهم. اما پیغام‌های تلگرامی و ایمیلی را به سرعت پاسخگو خواهم
+                    بود. با خیال راحت پیغامتان را ارسال کنید.در اینستاگرام هم میتوانید تصاویر و متونی که منتشر می‌کنم را
+                    ببینید. علاوه بر این چند لینک هم هستند. در آنها هم محتواهای ارزشمندی را خواهید یافت.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 align="right">اطلاعات تماس</h3>
+                    <ul>
+                        <li><a target="_blank" href="https://t.me/pejmandiaries">کانال تلگرامی ام</a></li>
+                        <li><a target="_blank" href="https://www.instagram.com/pj.norouzi">اینستاگرام شخصی ام</a></li>
+                        <li><a target="_blank" href="http://www.projectraz.com">لینک وبسایت پروژه راز</a></li>
+                        <li>ایمیل : me@pejmannorouzi.com</li>
+                    </ul>
+                    <div class="social">
+                        <a href="https://www.instagram.com/pj.norouzi" class="gplus"><i class="fa fa-instagram"></i></a>
+                        <a href="https://www.t.me/pejmandiaries" class="twitter"><i class="fa fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 align="right">ارسال پیام</h3>
+                    <form action="https://www.pejmannorouzi.com/contact" id="comment_form" class="comment_form"
+                          method="post">
+                        <div class="row-fluid">
+                            <div class="col-md-6">
+                                <input type="text" id="email" name="email" placeholder="پست الکترونیک*">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="name" name="name" placeholder="نام*">
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="col-md-4">
+                                <button name="frm_submit" class="btn " type="submit"><i class="fa fa-paper-plane-o"></i>ارسال
+                                    پیام
+                                </button>
+                            </div>
+                            <div class="col-md-8">
+                                <input name="department" type="hidden" value="1">
+                                <input type="text" id="subject" name="subject" placeholder="موضوع*">
+                                <textarea name="message" id="txt_message" placeholder="پیام" cols="30"
+                                          rows="10"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } else { ?>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="https://www.pejmannorouzi.com" class="navbar-brand">پژمان نوروزی</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#about-us"><i class="fa fa-comment-o"></i>درباره من</a>
+                    </li>
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#blog"><i class="fa fa-newspaper-o"></i>وبلاگ</a>
+                    </li>
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#portfolio"><i class="fa fa-picture-o"></i>نمونه کارها</a>
+                    </li>
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#services"><i class="fa fa-lightbulb-o"></i>خدمات</a>
+                    </li>
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#customer"><i class="fa fa-magic"></i>مشتریان</a>
+                    </li>
+                    <li class="">
+                        <a href="https://www.pejmannorouzi.com#contact"><i class="fa fa-paper-plane-o"></i>تماس با
+                            من</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="section">
+        <div class="myContainer">
+            <div class="pi-main-myContainer">
+                <?php //if ($breadcrumbs) { echo $breadcrumbs; } ?>
+                <!-- Flash messenger -->
+                <?php include $this->template('flash-messenger'); ?>
+                <!-- Top head zone -->
+                <?php if (!empty($blocks['0'])) { ?>
+                    <div class="pi-zone-0">
+                        <?php foreach ($blocks['0'] as $block) {
+                            include $blockTemplate;
+                        } ?>
+                    </div>
+                <?php } ?>
+                <div class="row">
+                    <!-- Left zone -->
+                    <?php if (!empty($blocks['1'])) { ?>
+                        <div class="pi-zone-1 col-md-4">
+                            <?php foreach ($blocks['1'] as $block) {
+                                include $blockTemplate;
+                            } ?>
+                        </div>
+                    <?php } ?>
+                    <div class="<?php
+                    if (isset($blocks['1']) && isset($blocks['8'])) {
+                        echo 'col-md-4';
+                    } elseif (isset($blocks['1']) || isset($blocks['8'])) {
+                        echo 'col-md-8';
+                    } else {
+                        echo 'col-md-12';
+                    }
+                    ?>">
+                        <!-- Center top zone -->
+                        <?php if (isset($blocks['2'])) { ?>
+                            <div class="pi-zone-2">
+                                <?php foreach ($blocks['2'] as $block) {
+                                    include $blockTemplate;
+                                } ?>
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($blocks['3']) || isset($blocks['4'])) { ?>
+                            <div class="row">
+                                <div class="col-md-6 pi-zone-3">
+                                    <?php
+                                    if (isset($blocks['3'])) {
+                                        foreach ($blocks['3'] as $block) {
+                                            include $blockTemplate;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <div class="col-md-6 pi-zone-4">
+                                    <?php
+                                    if (isset($blocks['4'])) {
+                                        foreach ($blocks['4'] as $block) {
+                                            include $blockTemplate;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <!-- Module content starts -->
+                        <?php if (!empty($content)) { ?>
+                            <div class="<?php echo $module; ?>">
+                                <div class="pi-module-content" data-ng-app="<?php echo $module; ?>">
+                                    <?php echo $content; ?>
+                                </div>
+                                <?php echo Pi::service('comment')->load(['options' => ['type' => 'js']]); ?>
+                            </div>
+                        <?php } ?>
+                        <!-- Module content ends -->
+                        <?php if (isset($blocks['5']) || isset($blocks['6'])) { ?>
+                            <div class="row">
+                                <div class="col-md-6 pi-zone-5">
+                                    <?php
+                                    if (isset($blocks['5'])) {
+                                        foreach ($blocks['5'] as $block) {
+                                            include $blockTemplate;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <div class="col-md-6 pi-zone-6">
+                                    <?php
+                                    if (isset($blocks['6'])) {
+                                        foreach ($blocks['6'] as $block) {
+                                            include $blockTemplate;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <!-- Center bottom zone -->
+                        <?php if (isset($blocks['7'])) { ?>
+                            <div class="pi-zone-7">
+                                <?php foreach ($blocks['7'] as $block) {
+                                    include $blockTemplate;
+                                } ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <!-- Right zone -->
+                    <?php if (isset($blocks['8'])) { ?>
+                        <div class="col-md-4 pi-zone-8">
+                            <?php foreach ($blocks['8'] as $block) {
+                                include $blockTemplate;
+                            } ?>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- Bottom foot zone -->
+                <?php if (isset($blocks['99'])) { ?>
+                    <div class="pi-zone-99">
+                        <?php foreach ($blocks['99'] as $block) {
+                            include $blockTemplate;
+                        } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<footer id="footer">
+    <div class="myContainer">
+        <div class="row">
+            <div class="text-left col-md-6 col-xs-12" data-rel="license">تمام حقوق مطالب برای وب سایت برای <a
+                        href="<?php echo Pi::url($this->url('home')); ?>"
+                        title="<?php echo _escape($sitename); ?>"><?php echo _escape($sitename); ?></a> محفوظ است.
+            </div>
+            <div class="text-right col-md-6 col-xs-12" data-rel="license">طراحی و توسعه <a title="فراگسترش"
+                                                                                           href="http://www.faragostaresh.com"
+                                                                                           target="_blank">فراگسترش</a>
+            </div>
+        </div>
+    </div>
+    <a href="#" id="btn_up">بالا</a>
+</footer>
+<?php echo $this->conditions() ?>
+</body>
+</html>

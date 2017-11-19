@@ -1,0 +1,28 @@
+<?php if ($block['block-effect']) {
+    $this->css($this->assetModule('css/block.css', 'blog'));
+} ?>
+<div class="blog-block">
+    <?php if (!empty($block['resources'])) { ?>
+        <div class="recent-post-list clearfix">
+            <?php foreach ($block['resources'] as $post) { ?>
+                <div class="brick2" itemprop="liveBlogUpdate" itemscope itemtype="http://schema.org/BlogPosting">
+                    <a href="<?php echo $this->escape($post['postUrl']); ?>" class="article">
+                        <img itemprop="image" class="img-responsive u-photo" style="width: 100%"
+                             src="<?php echo $this->escape($post['thumbUrl']); ?>"
+                             alt="<?php echo $this->escape($post['title']); ?>"/>
+                        <div class="meta">
+                            <h5><i class="fa fa-file-text-o"></i> <?php echo $this->escape($post['title']); ?></h5>
+                            <p class="desc"><?php echo $post['text_summary']; ?></p>
+                        </div>
+                    </a>
+                </div>
+            <?php } ?>
+        </div>
+        <?php if ($block['show-morelink']) { ?>
+            <div class="recent-event-more clearfix">
+                <a title="<?php echo _b('More posts'); ?>"
+                   href="<?php echo $this->escape($block['morelink']); ?>"><?php echo _b('More posts'); ?></a>
+            </div>
+        <?php } ?>
+    <?php } ?>
+</div>
